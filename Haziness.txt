@@ -1,0 +1,433 @@
+\documentclass[a4paper]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{svg}
+\usepackage{subcaption}
+\usepackage{multicol}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Image haziness contrast metric describing optical scattering depth\\
+
+\thanks{This study was financed in part by the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) - Finance Code 001. }
+}
+
+% \author{\IEEEauthorblockN{1\textsuperscript{st} André Vitor}
+% \IEEEauthorblockA{\textit{Departamento de F\'{i}sica, FFCLRP} \\
+% \textit{Universidade de S\~ao Paulo}\\
+% Ribeir\~ao Preto, Brazil \\
+% andrervitor@usp.br}
+% \and
+% \IEEEauthorblockN{2\textsuperscript{nd} George Cardoso}
+% \IEEEauthorblockA{\textit{Departamento de F\'{i}sica, FFCLRP} \\
+% \textit{Universidade de S\~ao Paulo}\\
+% Ribeir\~ao Preto, Brazil \\
+% gcc@usp.br}
+
+\author{\IEEEauthorblockN{           }
+\IEEEauthorblockA{\textit{                                } \\
+\textit{ }\\
+  \\
+ }
+\and
+\IEEEauthorblockN{  }
+\IEEEauthorblockA{\textit{ } \\
+\textit{ }\\
+  \\
+ }
+% \and
+% \IEEEauthorblockN{3\textsuperscript{rd} Arie Shaus}
+% \IEEEauthorblockA{\textit{Department of Genetics} \\
+% \textit{Harvard Medical School}\\
+% Boston, USA\\
+% ashaus@gmail.com}
+}
+
+
+% \author{\IEEEauthorblockN{1\textsuperscript{st} André Vitor}
+% \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+% \textit{name of organization (of Aff.)}\\
+% City, Country \\
+% email address or ORCID}
+% \and
+% \IEEEauthorblockN{2\textsuperscript{nd} George Cardoso}
+% \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+% \textit{name of organization (of Aff.)}\\
+% City, Country \\
+% email address or ORCID}
+% \and
+% \IEEEauthorblockN{3\textsuperscript{rd} Arie Shaus}
+% \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+% \textit{name of organization (of Aff.)}\\
+% City, Country \\
+% email address or ORCID}
+% }
+
+\maketitle
+
+\begin{abstract}
+% *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, or Math in Paper Title or Abstract.
+% Contrast is not uniquely defined in the literature. 
+%Some are the Michelson, Weber, RMS, but they don't follow a monotonical changes with haziness or fogginess of an image.
+Contrast is not uniquely defined in the literature. In particular, there is a need for a contrast measure that scales linearly and monotonically with the optical scattering depth of a translucent scattering layer that covers an image. Here, we address this issue by proposing an image contrast metric, which we call haziness contrast metric, and experimentally test it using milk as a scattering medium to simulate a decline in image contrast. Compared to other contrast metrics in the literature, the proposed metric is the closest to linear, as a function of the increasing density of the scattering material on the image.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+Image contrast, optical scattering
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Contrast is not uniquely defined in the literature. Michelson contrast is commonly used for images with patterns, in which the bright and dark intensities occupy similar fractions of the image \cite{Peli1990,Michelson1927}. One of the oldest ways to calculate contrast is the Weber contrast, appropriate for large and constant backgrounds\cite{Peli1990}.
+Another common way to define  contrast is the root mean square (RMS) contrast \cite{Pavel1987}, which is   useful to compare the contrast between two images. RMS contrast does not depend on spatial frequency nor spatial distribution \cite{Peli1990}.
+Finally, there are contrast scales based on the shape of the image histogram spread, such as the scale described in \cite{Tripathi2011}.
+
+%  \bigbreak
+%Paragraph 3. Good, good, but...
+%Existing contrast metrics can efficiently quantify the contrast for periodic functions, like Michelson, or for cases where the background is uniform, like Weber.
+
+%There are metrics for specific situations, like Michelson for images with periodic patterns, or Weber, where the background is well defined and uniform.
+Existing contrast scales successfully measure contrast for image optimization and image haziness removal \cite{Kim2013,He2011,Tan2008,Narasimhan2003}, which require low levels of scattering, such as shown in the top row of Fig. 1. However, the literature is lacking a contrast metric that monotonically changes with haziness or fogginess of an image, and is linear for a very large dynamic range of scattering depth. 
+
+The association of images and colors is a common practice to the intellect, the neurologist Oliver Sacks \cite{sacs} emphasizes that color is not a trivial matter and reports in “The case of the colorblind painter”, the traps that the excess of contrast or the scarcity of it can cause disturbances such as neuronal knowledge of colors. Now, taking this perspective to accurate image readings, how can the contrast interfere in the interpretation of data?
+
+
+
+%Optically thin and intermediate thickness ($\tau \lesssim 1$)...
+%  \bigbreak
+%Paragraph 4
+% In this paper we present...
+% milk...RGB linear ... monotonic ...  comparison to metrics A, B, c ...
+
+In this paper, we present a quantitative way of measuring contrast that is nearly linear for a large dynamic range of optical scattering depth. We use actual photographs where  milk is added on the optical path to simulate a decline in image contrast (Fig. 1). This scale, which we call ``image haziness scale''  fulfills the aspects of  linearity as a function of increasing density of the scattering material, and works well over a dynamic range wider than other contrast scales shown in the literature. Application of the haziness scale includes, for example, the study of optical coherence tomography (OCT) eye retina images. In this paper, we will concentrate ourselves in the description of the haziness scale, and tests in a controlled environment, which we use to compare the proposed scale with several metrics from the literature.
+
+
+\begin{figure}[htb]
+    \centering
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_00.jpg}}%
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_05.jpg}}%
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_10.jpg}}%
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_15.jpg}}%
+
+
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_20.jpg}}%    \hfill
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_25.jpg}}%
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_30.jpg}}%
+    \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_35.jpg}}%    \hfill
+    % \subfloat{\includegraphics[width=0.1\textwidth]{images/recorte_leite_99.jpg}}%
+   
+    \caption{
+    % Contrast worsening by addition of milk. From top left, clockwise: water on 
+    Contrast worsening by addition of milk in a transparent bowl of water above an image. From left to right, first row: just water, 5 ml, 10 ml, 15 ml of milk. Second row: 20 ml, 25 ml, 30 ml, 35 ml of milk.
+% Diminuição do contraste ao se colocar leite. 
+    }
+    \label{fig:leite}
+\end{figure}
+
+\subsection{Michelson contrast}
+Contrast ratio measure by Michelson \cite{Peli1990,Michelson1927}:
+
+\begin{equation}\label{eq:michelson}
+\text{Michelson} =  \frac{I_{max} - I_{min}}{I_{max} + I_{min}},
+\end{equation}
+where $I_{max}$ and $I_{min}$ are the maximal and minimal luminance values of the image. It's a metric originally used for images with sinusoidal patterns and is not a good measure for complex images.
+% \emph{É uma métrica originalmente usada para imagens com padrões senoidais e não é uma medida boa para imagens complexas.}\cite{Peli1990}
+% "É comumente usado with a range from 0 to 1.
+
+\subsection{Root Mean Square Contrast}
+There are others contrast metrics, such as the root-mean-square contrast \cite{Pavel1987}:
+
+\begin{equation}
+    RMS = \left[  
+    \frac{1}{n} \sum^{n}_{i=1}\left(x_i -\Bar{x}   \right)^2
+    \right]^{1/2},
+\end{equation}
+where $x_i \in [0,1]$ is a normalized graylevel value, $\Bar{x}$ is the a normalized gray level $\Bar{x} = \frac{1}{n} \sum^n_{i=1} x_i$ and $n$ is the number of pixels in the image. For color images, we separate the RGB channels and $ x_i $ represents one of these channels
+% \emph{Para imagens coloridas, separamos os canais RGB e $x_i$ representa um deses canais.}
+
+
+\subsection{Histogram Spread}
+
+% Histogram Spread \cite{Tripathi2011} is defined as the following: let $Q_n$ be the $n$-th quartile of the image histogram. $PR$ is the pixel range of the image, that is, the range of possible values a pixel can have.
+Histogram Spread is defined as the interquartile range of the cumulative histogram \cite{Gonzalez2004} divided by the pixel value range \cite{Tripathi2011}. This definition is necessary for us to understand the image formation process and the parameters used:
+We first take the histogram of the image and normalize so that the sum is 1. 
+Next, we calculate the positions of the 1st and 3rd quartiles of the cumulative histogram and take the difference from those positions. HS is this difference divided by the pixel range, the difference between the highest and lowest possible intensity for the pixels
+% \emph{Primeiro calculamos o histograma da imagem e dividimos em 255 partições e Normalizamos de forma que a soma seja 1. Chamamos esse histograma de histograma cumulativo normalizado. A seguir, calculamos as posições do 1º w 3º quartis desse histograma e tiramos a diferença dessas posições. HS é essa diferença dividido pelo pixel range, é a diferença entre a maior e menor intensidade possível para os pixels.}
+\begin{equation} \label{eq1}
+    HS  = \frac{Q_3 - Q_1}{p_{max}-p_{min}},
+\end{equation}
+where $Q_n$ is the $n$-th quartile and $p_{max}$ and $p_{min}$ are the maximum and minimum values for the pixels, respectively. Histogram Spread has a range of values from 0 to 1.
+
+\subsection{Weber Contrast}
+
+Weber contrast is one of the oldest contrast metrics, used to measure the contrast when there is a uniform background and a well defined target:
+\begin{equation}\label{weber}
+    \text{Weber} = \frac{I-I_b}{I_b},
+\end{equation}
+with $I$ and $I_b$ representing the luminance of the target and background, respectively.
+
+
+However this is not a good global contrast measurement, since some very bright or dark spots would determine the contrast of the whole image.
+So, we made a modification to try to improve for complex images, changing the denominator to the average luminance of the image, denoted by $ \bar{I} $.
+
+\begin{equation}\label{weber_modified}
+    \text{Weber} = \frac{I-I_b}{\bar{I}},
+\end{equation}
+
+\subsection{Rizzi Scale}
+Their algorithm estimate global and local components of contrast. First they make an under-sampling of the original image, transform the under-sampled images in CIELab images, calculate the 8-Neighborhood local contrast and finally recombine to obtain a global measure.
+
+
+
+\subsection{Haziness Scale }\label{haziness}
+%
+Here we describe our proposed metric.
+In its essence, the haziness scale compares normalized histograms of multiple blocks of the image, a pair at a time. The metric is inspired by the foreground to background histogram contrast as described by Shaus et al. \cite{Shaus2017a}. One of the several differences here is that the two blocks $i$ and $j$ are at random positions in the image, and there is no need for image segmentation -- since we assume the scattering medium covers the whole image.  
+
+The haziness contrast metric is calculated as follows. Two random  image blocks $i$ and $j$ of $n \times n$ pixels are sampled. The $n \times n$ pixels image blocks have area-normalized histograms $\Vec{H_i}$, and  $\Vec{H_j}$, respectively, where the vectors $\Vec{H}$ represent the values of each . By area-normalized we mean the sum of their entries is 1, that is,   $\left \Vert  \vec{H_{i}}  \right \Vert_1 = 1$, where $\left \Vert  .  \right \Vert_1$ is the taxicab $\ell_1$-norm. Each of the histogram vectors $\Vec{H_i}$ and $\Vec{H_j}$ has $2^b$ entries, where $b$ is the bit-depth of the image (e.g., 8-bit). With these definitions, we have:
+
+
+
+\begin{equation}
+    \text{Haziness} = \left(2^{b}-1\right)\times
+    \left\langle 
+    \frac{ \left \Vert \Vec{H_i} - \Vec{H_j} \right \Vert_1 }
+    {\left \Vert \Vec{H_i} + \Vec{H_j} \right \Vert_1 }
+    \right\rangle_N,
+\end{equation}
+% \improvement{Não deveria ser $2^b-1$?}
+%where $\Phi(\Vec{x})$ is a function that zeroes all negative entries $x_i$ of vector $\Vec{x}$, leaving unchanged $x_i \ge 0$, 
+
+
+
+
+% \begin{figure*}[h]
+%     \centering
+%       \subcaptionbox{}[.3\linewidth][c]{%
+%     % \includegraphics[width=.2\linewidth]{example-image-a}}\quad
+%     \subfloat{\includesvg[width=.2\textwidth]{Imagens melhores/Weber Spearman RGB.svg}}}\quad%
+%     \captionof*{figure}{(a) Weber metric}
+%     % \hfill
+    
+%       \subcaptionbox{}[.3\linewidth][c]{%
+%     % \includegraphics[width=.2\linewidth]{example-image-a}}\quad
+%     \subfloat{\includesvg[width=.2\textwidth]{Imagens melhores/Michelson Spearman RGB.svg}}}
+%     \captionof*{figure}{(b) Michelson metric}
+%     % \hfill  \bigskip
+    
+%       \subcaptionbox{}[.3\linewidth][c]{%
+%     % \includegraphics[width=.2\linewidth]{example-image-a}}\quad
+%     \subfloat{\includesvg[width=.2\textwidth]{Imagens melhores/RMS Spearman RGB.svg}}}\quad%
+%     \captionof*{figure}{(c) RMS metric}
+    
+    
+%       \subcaptionbox{}[.3\linewidth][c]{%
+%     % \includegraphics[width=.2\linewidth]{example-image-a}}\quad
+%     \subfloat{\includesvg[width=.2\textwidth]{Imagens melhores/HS Spearman RGB.svg}}}
+%     \captionof*{figure}{(d) HS metric}
+    
+%     \caption*{Fig. 2: Values for the Weber, HS, Michelson and RMS metrics in each of the RGB channels and in grayscale. Notice that metrics (a), (b), (c) are monotonic but have poor discrimination power for high scattering depths. (d) shows good discrimination for the different colors, and correctly predicts that blue scatters more, but has poor monotonicity.}
+%     \label{fig:metrics_spearman}
+% \end{figure*}
+
+\noindent where and $\langle . \rangle_N$ represents the average of $N$ random pairs of blocks selection ($N \gg 1$). 
+In our analysis, we used $n=2$, so that the comparison of the histograms are local. Also, empirically this was the best value for the parameter.
+
+\begin{figure}[h]
+    \centering
+    
+    \subfloat{\includesvg[width=0.32\textwidth]{Imagens melhores/Weber Spearman RGB.svg}}%
+    \captionof*{figure}{(a) Weber metric}
+    % \hfill
+    \subfloat{\includesvg[width=0.32\textwidth]{Imagens melhores/Michelson Spearman RGB.svg}}%
+    \captionof*{figure}{(b) Michelson metric}
+    % \hfill
+    \subfloat{\includesvg[width=0.32\textwidth]{Imagens melhores/RMS Spearman RGB.svg}}%
+    \captionof*{figure}{(c) RMS metric}
+    \subfloat{\includesvg[width=0.32\textwidth]{Imagens melhores/HS Spearman RGB.svg}}%
+    \captionof*{figure}{(d) HS metric}
+    
+    \caption*{Fig. 2: Values for the Weber, HS, Michelson and RMS metrics in each of the RGB channels and in grayscale. Notice that metrics (a), (b), (c) are monotonic but have poor discrimination power for high scattering depths. (d) shows high optical scattering depth for the different colors, and correctly predicts that blue scatters more, but has poor monotonicity.}
+    \label{fig:metrics_spearman}
+\end{figure}
+
+
+
+
+% \begin{figure*}
+%     \includesvg[width=0.3\textwidth]{
+%     Imagens melhores/Weber Spearman RGB.svg}
+%     \label{fig:1a}
+% %   \hspace*{\fill}   % maximize separation between the subfigures
+
+%     \includesvg[width=0.3\textwidth]
+%     {Imagens melhores/Weber Spearman RGB.svg}
+%     \label{fig:1b}
+% %   \hspace*{\fill}   % maximizeseparation between the subfigures
+
+%     \includesvg[width=0.3\textwidth]
+%     {Imagens melhores/Weber Spearman RGB.svg}
+%     \label{fig:1c}
+
+% \caption{A figure that contains three subfigures} \label{fig:1}
+% \end{figure*}
+
+
+% \begin{figure*}[h]
+%     \centering
+%     % \includegraphics[width=.2\linewidth]{example-image-a}}\quad
+%     \subfloat{\includesvg[width=.2\textwidth]{Imagens melhores/Weber Spearman RGB.svg}}
+%     \captionof*{figure}{(a) Weber metric}
+% \end{figure*}
+
+
+% \begin{figure*}[t]
+%   \centering
+% \subcaptionbox{Weber}[.2\linewidth][c]{%
+% \includesvg[width=.2\textwidth]{Imagens melhores/Weber Spearman RGB.svg}}\quad
+
+% \subcaptionbox{Michelson}[.2\linewidth][c]{%
+% \includesvg[width=.2\textwidth]{Imagens melhores/Michelson Spearman RGB.svg}}
+
+%   \bigskip
+  
+% \subcaptionbox{RMS}[.2\linewidth][c]{%
+% \includesvg[width=.2\textwidth]{Imagens melhores/RMS Spearman RGB.svg}}\quad
+
+% \subcaptionbox{HS}[.2\linewidth][c]{%
+% \includesvg[width=.2\textwidth]{Imagens melhores/HS Spearman RGB.svg}}
+%   \caption{This is a figure}
+% \end{figure*}
+
+
+
+
+
+
+
+
+
+\begin{figure}[h]
+    \centering
+    \includesvg[scale=.4]{Imagens melhores/Haziness RGB.svg}
+    \caption*{Fig. 3: Haziness metric values. The metric is monotonic in the R channel and for grayscale.
+    Notice that the blue light displays a steeper increase in scattering with concentration, as compared to the red light, as expected.
+    }
+    \label{fig:haziness}
+\end{figure}
+
+
+
+
+
+\section{Image acquisition}
+The photos were taken using a cell phone. The first photo was taken from a container with water above an image. With a pipette, $ 5 $ ml of milk per photo was added up to a total of $ 35 $ ml to simulate a linear worsening in contrast, or similarly, an increase in the amount of fog in the image.
+The images have a size of 1188 by 1446 pixels and a resolution of 96 dpi, in jpeg format, Fig. 1.
+
+
+
+\begin{figure}[h]
+    \centering
+    \includesvg[scale=.4]
+    {Imagens melhores/Gray scale normalized metrics.svg}
+    \caption*{Fig. 4: Grayscale normalized metrics. The haziness (denoted by circles) is monotonic and is the closest to linear. The other metrics are HS (denoted by triangles), RMS (denoted by squares), Michelson (denoted by stars), Weber (denoted by inverted triangles), Rizzi (denoted by left triangles).} 
+    \label{fig:gray_norm_hist}
+\end{figure}
+
+
+
+
+
+
+
+\section{Results and Discussion}
+
+% \subsection{Segmenting the image is equivalent to applying the metric in the whole image}
+% To make sure that using small squares to represent the whole image works, we cut the image in four quadrants and applied the algorithm and then compared the results to the whole image.
+
+The images were analyzed in two ways: in grayscale and in RGB, with each channel treated separately. For the Haziness, in particular, it's necessary to define the number of iterations that will be made. At each iteration, two small squares of the image are selected and compared as previously described. The final result is the average of the values. 
+
+The values are shown in Fig. 2. The red, green, and blue colors represent the respective RGB channels, while the black line represents the grayscale measurements. For the grayscale, the haziness values are monotonic and quasi-linear. As the concentration of milk increases the range of color diminishes and the contrast becomes worst and worst. 
+
+% For Weber, Michelson and RMS, os primeiros valores variam bastante enquanto que para concentrações maiores, de 20ml pra cima, não conseguem detectar mudanças significativas. HS não apresentou monotonicidade em nenhum dos canais, nem em escala de cinza.
+
+
+For the first graph in Fig. 2, we have the values for the Weber metric. The difference in the values for the first values is high, we can clearly see a difference. But from 20 ml and forwards, there are no significant differences, both for the RGB values and for the grayscale. It is monotonic but has poor discrimination power for high scattering depths. The second and third graphs, representing the Michelson metric and the RMS metric, respectively, presents similar results.
+
+In the last graph in Fig. 2 are the values for the HS metric. This metric has an erratic behavior and besides the convergence towards zero, there is no visible pattern in neither RGB nor grayscale. It shows good discrimination  for  the different  colors and  correctly predicts that blue scatters more, but has poor monotonicity.
+
+% Each of the metrics previously mentioned were measured in the gray scale images of the milk and the values are shown in Fig. \ref{fig:metrics_spearman}.
+
+
+%Since some metrics can only be used in gray scale and the range of the values are different, we normalized the values to the interval [0,1]. But as seen in Fig. \ref{fig:gray_norm_hist}, the shape of the curves, except HS, are the same.
+Since the ranges of the values of the metrics are different, we normalized the values to the interval [0,1] in Fig. 4. The shape of the curves remains the same.
+
+The Weber, Michelson, and RMS metrics can detect large contrast variations when milk density is low, but as the density increases, these metrics don't change too much. On the other hand, the haziness metric is much more linear and can distinguishing the changes even with high densities of milk as seen in Fig 3. This can also be seen in Fig. 4, with the metrics normalized for better visualization. The haziness metric also has a wider dynamic range.
+
+
+
+
+
+
+
+
+\section{Conclusion}
+In this article, we discuss how the knowledge of different metrics associated with new ideas made it possible to optimize and improve contrast quantification techniques. Then, a new metric was developed, monotonic and more linear when compared to other metrics in the literature, considering the density of the spreading medium, this allowed us to verify that (...). In addition, the new haziness metric also has a wider dynamic range and can differentiate between RGB channels, which promotes (...)
+% \bigskip
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{thebibliography}{00}
+% \bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
+% \bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
+% \bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
+% \bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
+% \bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
+% \bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
+% \bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
+
+\bibitem{Peli1990} E. Peli, Contrast in complex images, Tech.Rep. 10
+\bibitem{Michelson1927} A. Michelson, Studies in Optics, The University of Chicago Press, 1927.
+\bibitem{Tripathi2011} A. K. Tripathi, S. Mukhopadhyay, A. K. Dhara, Performance metrics for image  contrast, ICIIP 2011 - Proceedings: 2011 International Conference on Image Information Processing (Iciip) (2011) 0–3. 
+\bibitem{Pavel1987}M. Pavel, G. Sperling, T. Riedi, A. Vanderbeek, Limits of visual communication:  the effect of signal-to-noise ratio on the intelligibility of American Sign Language, Tech. Rep. 12 (1987)
+\bibitem{Gonzalez2004} R.  C.  Gonzalez,  R. E. Woods, S. L.  Eddins, Digital image processing using MATLAB, Pearson Education India, 2004.
+\bibitem{Rizzi2004}A.  Rizzi, T. Algeri,  G. Medeghini,  D.  Marini,  A  proposal  for  contrastmeasure in digital images, CGIV 2004 - Second European Conference onColor in Graphics, Imaging, and Vision and Sixth International Symposium on Multispectral Color Science (2004) 187–192.
+\bibitem {sacs}Sacks, O.
+An anthropologist on Mars: Seven paradoxical tales,
+  author={Sacks, Oliver},
+  year={2012},
+  publisher={Vintage}
+
+\bibitem{Shaus2017a} A.  Shaus, S. Faigenbaum-Golovin,  B.  Sober,  E.  Turkel,  Potential  contrast  -  A  new  image  quality  measure,  IS  and  T  International  Symposium  on  Electronic  Imaging  Science  and  Technology  (2017)  52–14058
+\bibitem{Kim2013}Kim, J. H., Jang, W. D., Sim, J. Y., \& Kim, C. S. (2013). Optimized contrast enhancement for real-time image and video dehazing. Journal of Visual Communication and Image Representation, 24(3), 410–425. 
+\bibitem{He2011} He, K., Sun, J., \& Tang, X. (2011). Single image haze removal using dark channel prior. IEEE Transactions on Pattern Analysis and Machine Intelligence, 33(12), 2341–2353. 
+\bibitem{Tan2008}Tan, R. T. (2008). Visibility in bad weather. In Computer Vision and Pattern Recognition. CVPR 2008, 1–8.
+\bibitem{Narasimhan2003}Narasimhan, S. G., & Nayar, S. K. (2003). Contrast restoration of weather degraded images. IEEE Transactions on Pattern Analysis and Machine Intelligence, 25(6), 713–724. 
+
+
+
+
+
+\end{thebibliography}
+\vspace{12pt}
+% \color{red}
+% IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
+
+\end{document}
